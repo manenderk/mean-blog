@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 
 import { SharedModule } from './shared/shared.module';
@@ -17,8 +18,9 @@ import { PostsModule } from './posts/posts.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
     SharedModule,
-    PostsModule
+    PostsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
