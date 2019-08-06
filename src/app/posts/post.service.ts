@@ -16,12 +16,11 @@ export class PostService {
   getPosts() {
     return this.httpClient.get<{message: string, posts: Post[]}>('http://localhost:3000/api/posts').subscribe((postData) => {
       this.posts = postData.posts;
-      console.log(this.posts);
       this.postUpdated.next([...this.posts]);
     });
   }
 
-  getPostUpdateListener() {
+  postUpdateListener() {
     return this.postUpdated.asObservable();
   }
 
