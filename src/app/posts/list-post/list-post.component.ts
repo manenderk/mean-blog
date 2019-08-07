@@ -23,4 +23,8 @@ export class ListPostComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  onDelete(id) {
+    this.postService.deletePost(id);
+  }
+
 }
