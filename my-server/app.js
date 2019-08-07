@@ -1,6 +1,19 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const Credentials = require('./credentials');
+const mongoose = require('mongoose');
+const Post = require('./models/post.schema');
 
 const app = express();
+
+app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended: false}));
+
+mongoose.set('useNewUrlParser', true);
+
+mongoose.connect('mongodb+srv://' + Credentials.user + ':' + Credentials.password + '@mean-blog-axtcy.mongodb.net/mean-blog?retryWrites=true&w=majority')
+.then(() => console.log('Connected to database'))
+.catch(() => console.log('Connection failed'));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
@@ -9,29 +22,34 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use('/api/posts', (req, res, next) => {
-  const posts = [
-    {
-      id: '1',
-      title: 'First Title from Server',
-      content: 'This is some content'
-    },
-    {
-      id: '2',
-      title: 'First Second from Server',
-      content: 'This is some content'
-    },
-    {
-      id: '3',
-      title: 'First Third from Server',
-      content: 'This is some content'
-    },
-  ];
-  res.status(200).json({
-    message: 'success',
-    posts: posts
+app.post('/api/posts', (req, res, next) => {
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content
   });
-})
+
+  post.save();
+
+  res.status(201).json({
+    message: 'success'
+  })
+});
+
+app.get('/api/posts', (req, res, next) => {
+
+  Post.find()
+  .then((documents) => {
+    res.status(200).json({
+      message: 'success',
+      posts: documents
+    });
+  })
+  .catch(() => {
+    res.status(500).json({
+      message: 'error'
+    })
+  });
+});
 
 
 
