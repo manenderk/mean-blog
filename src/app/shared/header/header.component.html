@@ -1,7 +1,8 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>MEAN Blog</span>
-    <span class="example-spacer"></span>
-
+    <span [routerLink]="['/']" routerLinkActive="router-link-active" >MEAN Blog</span>
+    <span class="navigation-spacer"></span>
+    <mat-icon class="navigation-icon" aria-hidden="false" [routerLink]="['/']" routerLinkActive="router-link-active" >list</mat-icon>
+    <mat-icon class="navigation-icon" aria-hidden="false" [routerLink]="['/create']" routerLinkActive="router-link-active" >add</mat-icon>
   </mat-toolbar-row>
 </mat-toolbar>

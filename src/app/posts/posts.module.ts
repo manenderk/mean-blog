@@ -5,6 +5,7 @@ import { PostService } from './post.service';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { ListPostComponent } from './list-post/list-post.component';
 import { MaterialModule } from '../material.module';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { MaterialModule } from '../material.module';
     CommonModule,
     FormsModule,
     MaterialModule,
+    RouterModule
   ],
   providers: [
     PostService

@@ -1,0 +1,11 @@
+.navigation-icon {
+  padding: 0 14px;
+}
+
+.navigation-spacer{
+  flex: 1 1 auto;
+}
+
+mat-icon:focus {
+  outline: none;
+}
