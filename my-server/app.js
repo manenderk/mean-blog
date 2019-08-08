@@ -18,7 +18,7 @@ mongoose.connect('mongodb+srv://' + Credentials.user + ':' + Credentials.passwor
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
   res.setHeader('Access-Control-Allow-Headers', 'Orgin, X-Requested-With, Content-Type, Accept');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
   next();
 })
 
@@ -71,5 +71,36 @@ app.delete('/api/posts/:id', (req, res, next) => {
   });
 });
 
+app.put('/api/posts/:id', (req, res, next) => {
+  const post = new Post ({
+    _id: req.params.id,
+    title: req.body.title,
+    content: req.body.content
+  })
+  Post.updateOne({
+    _id: post._id
+  }, post).
+  then((result) => {
+    res.status(200).json({
+      message: 'success'
+    })
+  }).
+  catch(() => {
+    res.status(500).json({
+      message: 'error'
+    })
+  });
+});
+
+app.get('/api/posts/:id', (req, res, next) => {
+  Post.findById(req.params.id).then( (post) => {
+    if(post){
+      res.status(200).json(post);
+    }
+    else{
+      res.status(404).json({message: 'Post not found'});
+    }
+  })
+})
 
 module.exports = app;

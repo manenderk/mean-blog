@@ -43,7 +43,6 @@ export class PostService {
       content
     };
     this.httpClient.post<{message: string, id: string}>('http://localhost:3000/api/posts', post).subscribe((postData) => {
-      console.log(postData);
       post.id = postData.id;
       this.posts.push(post);
       this.postUpdated.next([...this.posts]);
@@ -59,6 +58,21 @@ export class PostService {
   }
 
   getPost(id: string) {
-    return {...this.posts.find( (post) => post.id = id)};
+    return this.httpClient.get<{_id: string, title: string, content: string}>('http://localhost:3000/api/posts/' + id);
+  }
+
+  updatePost(post: Post) {
+    const postData = {
+      id: post.id,
+      title: post.title,
+      content: post.content
+    };
+    this.httpClient.put('http://localhost:3000/api/posts/' + postData.id, postData).subscribe((response) => {
+      const updatedPosts = [...this.posts];
+      const oldPostIndex = updatedPosts.findIndex( (p)  => p.id === postData.id);
+      updatedPosts[oldPostIndex] = postData;
+      this.posts = updatedPosts;
+      this.postUpdated.next([...this.posts]);
+    });
   }
 }
