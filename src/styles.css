@@ -3,3 +3,6 @@
 body {
   margin: 0;
 }
+mat-spinner {
+  margin: 2rem auto;
+}
