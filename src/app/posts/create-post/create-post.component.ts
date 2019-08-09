@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PostService } from '../post.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Post } from '../post.model';
@@ -11,14 +11,38 @@ import { Post } from '../post.model';
 })
 export class CreatePostComponent implements OnInit {
 
+  public form: FormGroup;
   private mode = 'create';
   private postId: string;
   public post: Post;
   public isLoading = false;
 
-  constructor(private postService: PostService, public route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private postService: PostService,
+    public route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    this.form = new FormGroup({
+      title: new FormControl(null, {
+        validators: [
+          Validators.required,
+          Validators.minLength(10),
+        ],
+      }),
+      content: new FormControl(null, {
+        validators: [
+          Validators.required,
+          Validators.minLength(10),
+        ]
+      }),
+      image: new FormControl(null, {
+        validators: [
+          Validators.required
+        ]
+      })
+    });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if ( paramMap.has('postId') ) {
         this.mode = 'edit';
@@ -31,6 +55,10 @@ export class CreatePostComponent implements OnInit {
             content: postData.content
           };
           this.isLoading = false;
+          this.form.setValue({
+            title: this.post.title,
+            content: this.post.content
+          });
         });
       } else {
         this.mode = 'create';
@@ -38,19 +66,27 @@ export class CreatePostComponent implements OnInit {
     });
   }
 
-  createPost(form: NgForm) {
-    if ( form.valid ) {
+  onImageChange(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.form.patchValue({
+      image: file
+    });
+    this.form.get('image').updateValueAndValidity();
+  }
+
+  createPost() {
+    if ( this.form.valid ) {
       this.isLoading = true;
       if ( this.mode === 'create' ) {
-        this.postService.addPost(form.value.title, form.value.content);
+        this.postService.addPost(this.form.value.title, this.form.value.content);
       } else if ( this.mode === 'edit' ) {
-        this.post.title = form.value.title;
-        this.post.content = form.value.content;
+        this.post.title = this.form.value.title;
+        this.post.content = this.form.value.content;
         this.postService.updatePost(this.post);
         this.post.title = '';
         this.post.content = '';
       }
-      form.resetForm();
+      this.form.reset();
       this.isLoading = false;
       this.router.navigateByUrl('/');
     }

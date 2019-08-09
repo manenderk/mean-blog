@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { PostService } from './post.service';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { ListPostComponent } from './list-post/list-post.component';
@@ -15,7 +15,7 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     RouterModule
   ],
