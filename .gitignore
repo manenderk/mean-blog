@@ -46,3 +46,4 @@ testem.log
 Thumbs.db
 
 /my-server/credentials.js
+/my-server/images
