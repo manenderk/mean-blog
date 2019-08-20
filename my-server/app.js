@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const Credentials = require('./credentials');
 const mongoose = require('mongoose');
@@ -8,6 +9,9 @@ const postRoutes = require('./routes/posts');
 const app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
+app.use('/images', express.static(path.join('my-server/images')));
 
 mongoose.set('useNewUrlParser', true);
 
@@ -20,7 +24,9 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Orgin, X-Requested-With, Content-Type, Accept');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
   next();
-})
+});
+
+
 
 app.use('/api/posts', postRoutes);
 
