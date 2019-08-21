@@ -41,7 +41,6 @@ export class PostService {
     postData.append('title', title);
     postData.append('content', content);
     postData.append('image', image, title);
-    const id = '';
 
     this.httpClient.post<{message: string, post: Post}>('http://localhost:3000/api/posts', postData).subscribe((response) => {
       const post: Post = {
@@ -64,7 +63,7 @@ export class PostService {
   }
 
   getPost(id: string) {
-    return this.httpClient.get<{_id: string, title: string, content: string}>('http://localhost:3000/api/posts/' + id);
+    return this.httpClient.get<{_id: string, title: string, content: string, imagePath: string}>('http://localhost:3000/api/posts/' + id);
   }
 
   updatePost(post: Post) {

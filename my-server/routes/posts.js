@@ -71,8 +71,10 @@ router.post('', multer({storage: storage}).single('image'), (req, res, next) => 
     res.status(201).json({
       message: 'success',
       post: {
-        ...result,
-        id: result._id
+        id: result._id,
+        title: result.title,
+        content: result.content,
+        imagePath: result.imagePath
       }
     })
   }).
