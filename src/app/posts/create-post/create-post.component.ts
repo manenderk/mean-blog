@@ -13,7 +13,7 @@ import { mimeType } from './mime-type.validator';
 export class CreatePostComponent implements OnInit {
 
   public form: FormGroup;
-  private mode = 'create';
+  public mode = 'create';
   private postId: string;
   public post: Post;
   public isLoading = false;
