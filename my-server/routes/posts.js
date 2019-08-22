@@ -86,7 +86,8 @@ router.post('', multer({storage: storage}).single('image'), (req, res, next) => 
 });
 
 //update a post
-router.put('/:id', (req, res, next) => {
+router.put('/:id', multer({storage: storage}).single('image'), (req, res, next) => {
+  console.log(req.file);
   const post = new Post({
     _id: req.params.id,
     title: req.body.title,
