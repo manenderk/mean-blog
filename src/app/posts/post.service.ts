@@ -66,11 +66,11 @@ export class PostService {
     return this.httpClient.get<{_id: string, title: string, content: string, imagePath: string}>('http://localhost:3000/api/posts/' + id);
   }
 
-  updatePost(post: Post) {
+  updatePost(id: string, title: string, content: string) {
     const postData: Post = {
-      id: post.id,
-      title: post.title,
-      content: post.content,
+      id: id,
+      title: title,
+      content: content,
       imagePath: null
     };
     this.httpClient.put('http://localhost:3000/api/posts/' + postData.id, postData).subscribe((response) => {
