@@ -3,8 +3,9 @@
     <span [routerLink]="['/']" routerLinkActive="router-link-active" >MEAN Blog</span>
     <span class="navigation-spacer"></span>
     <mat-icon class="navigation-icon" aria-hidden="false" [routerLink]="['/']" routerLinkActive="router-link-active" >list</mat-icon>
-    <mat-icon class="navigation-icon" aria-hidden="false" [routerLink]="['/create']" routerLinkActive="router-link-active" >add</mat-icon>
-    <mat-icon class="navigation-icon" aria-hidden="false" [routerLink]="['/login']" routerLinkActive="router-link-active" >account_circle</mat-icon>
-    <mat-icon class="navigation-icon" aria-hidden="false" [routerLink]="['/signup']" routerLinkActive="router-link-active" >account_box</mat-icon>
+    <mat-icon class="navigation-icon" aria-hidden="false" [routerLink]="['/create']" routerLinkActive="router-link-active" *ngIf="userIsAuthenticated">add</mat-icon>
+    <mat-icon class="navigation-icon" aria-hidden="false" [routerLink]="['/login']" routerLinkActive="router-link-active" *ngIf="!userIsAuthenticated">account_circle</mat-icon>
+    <mat-icon class="navigation-icon" aria-hidden="false" [routerLink]="['/signup']" routerLinkActive="router-link-active" *ngIf="!userIsAuthenticated">account_box</mat-icon>
+    <mat-icon class="navigation-icon" aria-hidden="false" *ngIf="userIsAuthenticated" (click)="onLogout()">error</mat-icon>
   </mat-toolbar-row>
 </mat-toolbar>
