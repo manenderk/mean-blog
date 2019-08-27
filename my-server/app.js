@@ -22,12 +22,10 @@ mongoose.connect('mongodb+srv://' + Credentials.user + ':' + Credentials.passwor
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-  res.setHeader('Access-Control-Allow-Headers', 'Orgin, X-Requested-With, Content-Type, Accept');
+  res.setHeader('Access-Control-Allow-Headers', 'Orgin, X-Requested-With, Content-Type, Accept, Authorization');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
   next();
 });
-
-
 
 app.use('/api/posts', postRoutes);
 app.use('/api/user', userRoutes);
