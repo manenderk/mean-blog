@@ -35,24 +35,28 @@ router.get('', (req, res, next) => {
 
   const postQuery = Post.find();
 
+  let fetchedPosts;
+
   if(pageSize && currentPage){
     postQuery
       .skip( pageSize * ( currentPage - 1 ) )
       .limit( pageSize );
   }
 
-  postQuery
-    .then((documents) => {
+  postQuery.then(
+    documents => {
+      fetchedPosts = documents;
+      return Post.count();
+    }
+  ).then(
+    count => {
       res.status(200).json({
         message: 'success',
-        posts: documents
+        posts: fetchedPosts,
+        maxPosts: count
       });
-    })
-    .catch(() => {
-      res.status(500).json({
-        message: 'error'
-      })
-    });
+    }
+  )
 });
 
 //get a single post
