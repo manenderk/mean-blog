@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 
 import { SharedModule } from './shared/shared.module';
 import { PostsModule } from './posts/posts.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { PostsModule } from './posts/posts.module';
     HttpClientModule,
     SharedModule,
     PostsModule,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
