@@ -105,6 +105,8 @@ router.post('', checkAuth, multer({storage: storage}).single('image'), (req, res
 
 //update a post
 router.put('/:id', checkAuth, multer({storage: storage}).single('image'), (req, res, next) => {
+
+
   let imagePath = req.body.imagePath;
   if(req.file){
     const url = req.protocol + '://' + req.get('host');
@@ -117,9 +119,16 @@ router.put('/:id', checkAuth, multer({storage: storage}).single('image'), (req, 
     imagePath: imagePath
   })
   Post.updateOne({
-    _id: post._id
+    _id: post._id,
+    creator: req.userData.userId
   }, post).
   then((result) => {
+    if(result.nModified < 1){
+      return res.status(401).json({
+        status: 'error',
+        error: 'not authorized'
+      })
+    }
     res.status(200).json({
       message: 'success',
       post: {
@@ -140,16 +149,23 @@ router.put('/:id', checkAuth, multer({storage: storage}).single('image'), (req, 
 //delete a post
 router.delete('/:id', checkAuth, (req, res, next) => {
   Post.deleteOne({
-    _id: req.params.id
+    _id: req.params.id,
+    creator: req.userData.userId
   }).
   then((result) => {
+    if (result.deletedCount < 1) {
+      return res.status(401).json({
+        status: 'error',
+        error: 'not authorized'
+      })
+    }
     res.status(200).json({
-      message: 'success'
+      status: 'success'
     });
   }).
   catch(() => {
     res.status(500).json({
-      message: 'error'
+      status: 'error'
     })
   });
 });
