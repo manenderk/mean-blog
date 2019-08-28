@@ -79,7 +79,8 @@ router.post('', checkAuth, multer({storage: storage}).single('image'), (req, res
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
-    imagePath: url + '/images/' + req.file.filename
+    imagePath: url + '/images/' + req.file.filename,
+    creator: req.userData.userId
   });
 
   post.save().
@@ -90,7 +91,8 @@ router.post('', checkAuth, multer({storage: storage}).single('image'), (req, res
         id: result._id,
         title: result.title,
         content: result.content,
-        imagePath: result.imagePath
+        imagePath: result.imagePath,
+        creator: result.creator
       }
     })
   }).
